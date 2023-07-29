@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Snake</title>
+  </head>
+  <body id="unity-container" style="position: absolute; width: 100%; height: 100%; margin: 0%; overflow: hidden;">
+    <canvas id="unity-canvas" style="width: 100%; height: 100%"></canvas>
+    <script src="Build/Build.loader.js"></script>
+    <script>
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/Build.data.unityweb",
+        frameworkUrl: "Build/Build.framework.js.unityweb",
+        codeUrl: "Build/Build.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "UGames",
+        productName: "Snake",
+        productVersion: "1.0.0",
+        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+      });
+    </script>
+  </body>
+</html>

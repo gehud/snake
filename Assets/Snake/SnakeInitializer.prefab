@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6009573824331432541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6971210752520958191}
+  - component: {fileID: 4958016069329523290}
+  m_Layer: 0
+  m_Name: SnakeInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6971210752520958191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6009573824331432541}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.114168406, y: 0, z: 2.8584266}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4958016069329523290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6009573824331432541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25cd64db2b413542af27d2fdf9bf604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configurations:
+  - name: Debug
+    isDirty: 0
+    configurationType: 0
+    defines:
+    - enabled: 1
+      name: GAMEOBJECT_VIEWS_MODULE_SUPPORT
+    - enabled: 1
+      name: PARTICLES_VIEWS_MODULE_SUPPORT
+    - enabled: 1
+      name: DRAWMESH_VIEWS_MODULE_SUPPORT
+    - enabled: 1
+      name: UNITY_MATHEMATICS
+    - enabled: 1
+      name: WORLD_STATE_CHECK
+    - enabled: 1
+      name: WORLD_THREAD_CHECK
+    - enabled: 1
+      name: WORLD_EXCEPTIONS
+    - enabled: 0
+      name: WORLD_TICK_THREADED
+    - enabled: 1
+      name: FPS_MODULE_SUPPORT
+    - enabled: 1
+      name: ECS_COMPILE_IL2CPP_OPTIONS
+    - enabled: 1
+      name: ECS_COMPILE_IL2CPP_OPTIONS_FILE_INCLUDE
+    - enabled: 0
+      name: MULTITHREAD_SUPPORT
+    - enabled: 0
+      name: MESSAGE_PACK_SUPPORT
+    - enabled: 0
+      name: ENTITY_ACTIONS
+    - enabled: 0
+      name: ENTITY_VERSION_INCREMENT_ACTIONS
+    - enabled: 0
+      name: ENTITY_API_VERSION1_TURN_OFF
+    - enabled: 0
+      name: ENTITY_API_VERSION2_TURN_OFF
+    - enabled: 0
+      name: ARCHETYPE_SIZE_128
+    - enabled: 0
+      name: ARCHETYPE_SIZE_192
+    - enabled: 0
+      name: ARCHETYPE_SIZE_256
+    - enabled: 0
+      name: VIEWS_REGISTER_VIEW_SOURCE_CHECK_STATE
+    - enabled: 0
+      name: ME_ECS_COLLECT_WEAK_REFERENCES
+  - name: Release
+    isDirty: 0
+    configurationType: 1
+    defines:
+    - enabled: 1
+      name: GAMEOBJECT_VIEWS_MODULE_SUPPORT
+    - enabled: 1
+      name: PARTICLES_VIEWS_MODULE_SUPPORT
+    - enabled: 1
+      name: DRAWMESH_VIEWS_MODULE_SUPPORT
+    - enabled: 1
+      name: UNITY_MATHEMATICS
+    - enabled: 0
+      name: WORLD_TICK_THREADED
+    - enabled: 1
+      name: FPS_MODULE_SUPPORT
+    - enabled: 1
+      name: ECS_COMPILE_IL2CPP_OPTIONS
+    - enabled: 1
+      name: ECS_COMPILE_IL2CPP_OPTIONS_FILE_INCLUDE
+    - enabled: 0
+      name: MULTITHREAD_SUPPORT
+    - enabled: 0
+      name: MESSAGE_PACK_SUPPORT
+    - enabled: 0
+      name: ENTITY_ACTIONS
+    - enabled: 0
+      name: ENTITY_VERSION_INCREMENT_ACTIONS
+    - enabled: 0
+      name: ENTITY_API_VERSION1_TURN_OFF
+    - enabled: 0
+      name: ENTITY_API_VERSION2_TURN_OFF
+    - enabled: 0
+      name: ARCHETYPE_SIZE_128
+    - enabled: 0
+      name: ARCHETYPE_SIZE_192
+    - enabled: 0
+      name: ARCHETYPE_SIZE_256
+    - enabled: 0
+      name: VIEWS_REGISTER_VIEW_SOURCE_CHECK_STATE
+  selectedConfiguration: Debug
+  featuresList:
+    features: []
+  featuresListCategories:
+    items: []
+  worldSettings:
+    useJobsForSystems: 1
+    useJobsForViews: 1
+    createInstanceForFeatures: 1
+    maxTicksSimulationCount: 0
+    turnOffViews: 0
+    viewsSettings:
+      unityNoViewProviderDisableJobs: 0
+      unityDrawMeshProviderDisableJobs: 0
+      unityGameObjectProviderDisableJobs: 0
+      unityParticlesProviderDisableJobs: 0
+  worldDebugSettings:
+    createGameObjectsRepresentation: 0
+    collectStatistic: 1
+    statisticsObject: {fileID: 0}
+    showViewsOnScene: 0
+    viewsSettings:
+      unityGameObjectProviderShowOnScene: 0
+      unityParticlesProviderShowOnScene: 0
+  tickTime: 0.033
+  inputTicks: 3
+  references:
+    version: 1

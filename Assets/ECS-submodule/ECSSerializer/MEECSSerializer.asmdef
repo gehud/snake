@@ -1,0 +1,15 @@
+{
+    "name": "MEECSSerializer",
+    "references": [
+        "GUID:948ed582966c54c1988774d66ffc3446"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

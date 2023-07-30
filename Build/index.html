@@ -12,14 +12,19 @@
     <canvas id="unity-canvas" style="width: 100%; height: 100%"></canvas>
     <script src="Build/Build.loader.js"></script>
     <script>
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        let canvas = document.querySelector('canvas');
-        if (canvas) {
-          canvas.requestFullscreen();
-        }
-        
+      let canvas = document.querySelector('canvas');
+      if(canvas.requestFullScreen) {
+        canvas.requestFullScreen();
+      } else if(canvas.webkitRequestFullScreen) {
+        canvas.webkitRequestFullScreen();
+      } else if(canvas.mozRequestFullScreen) {
+        canvas.mozRequestFullScreen();
+      }
+      
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {        
         window.screen.orientation.lock('portrait-primary');
       }
+      
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/Build.data.unityweb",
         frameworkUrl: "Build/Build.framework.js.unityweb",

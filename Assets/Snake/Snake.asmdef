@@ -1,10 +1,11 @@
 {
     "name": "Snake",
+    "rootNamespace": "",
     "references": [
         "GUID:8979e5b9ed38b420d8191f6eb2c94074",
         "GUID:1e50cf49f12c346f5ab77c5d33b0db51",
-        "GUID:948ed582966c54c1988774d66ffc3446"
-        
+        "GUID:948ed582966c54c1988774d66ffc3446",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -13,5 +14,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

@@ -20,85 +20,70 @@ namespace Snake.Generator {
 #endif
 	[DefaultExecutionOrder(-1000)]
     public sealed class SnakeInitializer : InitializerBase {
-
         private World world;
-        public float tickTime = 0.033f;
+        public float tickTime = 0.2f;
         public uint inputTicks = 3;
 
 		public void OnDrawGizmos() {
-
-            if (this.world != null) {
-                
-                this.world.OnDrawGizmos();
-                
+            if (world != null) {
+                world.OnDrawGizmos();
             }
-            
         }
 
         public void Update() {
-
-            if (this.world == null) {
-
+            if (world == null) {
                 // Initialize world
-                WorldUtilities.CreateWorld<TState>(ref this.world, this.tickTime);
+                WorldUtilities.CreateWorld<TState>(ref world, tickTime);
                 {
                     #if FPS_MODULE_SUPPORT
                     this.world.AddModule<FPSModule>();
                     #endif
-                    this.world.AddModule<StatesHistoryModule>();
-                    this.world.GetModule<StatesHistoryModule>().SetTicksForInput(this.inputTicks);
-                    this.world.AddModule<NetworkModule>();
+                    world.AddModule<StatesHistoryModule>();
+                    world.GetModule<StatesHistoryModule>().SetTicksForInput(inputTicks);
+                    world.AddModule<NetworkModule>();
                     
                     // Add your custom modules here
                     
                     // Create new state
-                    this.world.SetState<TState>(WorldUtilities.CreateState<TState>());
-                    this.world.SetSeed(1u);
+                    world.SetState<TState>(WorldUtilities.CreateState<TState>());
+                    world.SetSeed(1u);
                     ComponentsInitializer.DoInit();
-                    this.Initialize(this.world);
+                    Initialize(world);
 
                     // Add your custom systems here
                     world.AddFeature(Resources.Load<GridFeature>("GridFeature"));
                     world.AddFeature(Resources.Load<SnakeFeature>("SnakeFeature"));
                 }
                 
-                this.world.Load(() => {
-                
+                world.Load(() => {
                     // Save initialization state
-                    this.world.SaveResetState<TState>();
-
+                    world.SaveResetState<TState>();
                 });
-
             }
 
-            if (this.world != null && this.world.IsLoaded() == true) {
-
+            if (world != null && world.IsLoaded() == true) {
                 var dt = Time.deltaTime;
-                this.world.PreUpdate(dt);
-                this.world.Update(dt);
-
+                world.PreUpdate(dt);
+                world.Update(dt);
             }
-
         }
 
         public void LateUpdate() {
-            
-            if (this.world != null && this.world.IsLoaded() == true) this.world.LateUpdate(Time.deltaTime);
-            
+            if (world != null && world.IsLoaded() == true) {
+                world.LateUpdate(Time.deltaTime);
+            }
         }
 
         public void OnDestroy() {
+            if (world == null || world.isActive == false) { 
+                return;
+            }
             
-            if (this.world == null || this.world.isActive == false) return;
-            
-            this.DeInitializeFeatures(this.world);
+            DeInitializeFeatures(world);
             // Release world
-            WorldUtilities.ReleaseWorld<TState>(ref this.world);
-
+            WorldUtilities.ReleaseWorld<TState>(ref world);
         }
-
     }
-    
 }
 
 namespace ME.ECS {

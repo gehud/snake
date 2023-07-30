@@ -14,86 +14,112 @@ namespace Snake.Features.Snake.Systems {
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false),
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
 #endif
-	public sealed class SnakeMovementSystem : ISystemFilter, IUpdate {
-        private const float TICK_TIME = 0.15f;
-        private const int GRID_SIZE = 32;
-        
-        private SnakeFeature feature;
+    public sealed class SnakeMovementSystem : ISystemFilter {
+        private const int GRID_SIZE = 32;        
 
-        private float elapsed = 0.0f;
         private int directionX = 0;
         private int directionY = 0;
         
         public World world { get; set; }
-        
+
         void ISystemBase.OnConstruct() {
-            this.GetFeature(out this.feature);
+            Controls.OnUp += Up;
+            Controls.OnDown += Down;
+            Controls.OnRight += Right;
+            Controls.OnLeft += Left;
         }
         
-        void ISystemBase.OnDeconstruct() {}
+        void ISystemBase.OnDeconstruct() {
+			Controls.OnUp -= Up;
+			Controls.OnDown -= Down;
+			Controls.OnRight -= Right;
+			Controls.OnLeft -= Left;
+		}
         
-        #if !CSHARP_8_OR_NEWER
+#if !CSHARP_8_OR_NEWER
         bool ISystemFilter.jobs => false;
         int ISystemFilter.jobsBatchCount => 64;
-        #endif
+#endif
         Filter ISystemFilter.filter { get; set; }
 
         Filter ISystemFilter.CreateFilter() {
             return Filter
                 .Create("Filter-SnakeMovementSystem")
-                .With<SnakeHead>()
-                .With<SnakeTail>()
+                .With<SnakeBody>()
                 .With<Cell>()
                 .Push();
         }
     
         void ISystemFilter.AdvanceTick(in Entity entity, in float deltaTime) {
-			if (elapsed < TICK_TIME) {
-                elapsed += deltaTime;
+			var body = entity.Get<SnakeBody>();
+			bool isHead = entity.Has<SnakeHead>();
+            if (!isHead && body.Next.IsEmpty()) {
                 return;
             }
 
-            elapsed = 0.0f;
-
             var coordinate = entity.Get<Cell>().Coordinate;
-            var nextX = coordinate.x + directionX;
-            var nextY = coordinate.y + directionY;
-            if (nextX < 0) {
-                nextX = GRID_SIZE - 1;
-            } else if (nextY < 0) {
-                nextY = GRID_SIZE - 1;
-            } else if (nextX == GRID_SIZE) {
-                nextX = 0;
-            } else if (nextY == GRID_SIZE) {
-                nextY = 0;
+            Vector2Int nextCoordinate;
+            if (isHead) {
+                nextCoordinate = new Vector2Int {
+                    x = coordinate.x + directionX,
+                    y = coordinate.y + directionY
+				};
+
+                if (nextCoordinate.x < 0) {
+					nextCoordinate.x = GRID_SIZE - 1;
+                } else if (nextCoordinate.y < 0) {
+					nextCoordinate.y = GRID_SIZE - 1;
+                } else if (nextCoordinate.x == GRID_SIZE) {
+					nextCoordinate.x = 0;
+                } else if (nextCoordinate.y == GRID_SIZE) {
+					nextCoordinate.y = 0;
+                }
+            } else {
+				nextCoordinate = body.Next.Get<SnakeBody>().LastCoordinate;
             }
 
 			entity.Set(new Cell {
-                Coordinate = new Vector2Int(nextX, nextY)
-            });
+                Coordinate = nextCoordinate
+			});
 
-            var tail = entity.Get<SnakeTail>();
-            entity.Set(new SnakeTail { 
-                Next = tail.Next,
-                LastCoordinate = coordinate,
-                Sync = true
-            });
+            body.LastCoordinate = coordinate;
+			entity.Set(body);
         }
 
-		void IUpdate.Update(in float deltaTime) {
-			if (Input.GetKeyDown(KeyCode.W) && directionY != -1) {
-				directionY = 1;
-				directionX = 0;
-			} else if (Input.GetKeyDown(KeyCode.S) && directionY != 1) {
-				directionY = -1;
-				directionX = 0;
-			} else if (Input.GetKeyDown(KeyCode.D) && directionX != -1) {
-				directionY = 0;
-				directionX = 1;
-			} else if (Input.GetKeyDown(KeyCode.A) && directionX != 1) {
-				directionY = 0;
-				directionX = -1;
+        private void Up() {
+            if (directionY == -1) {
+                return;
+            }
+
+			directionY = 1;
+			directionX = 0;
+		}
+
+		private void Down() {
+			if (directionY == 1) {
+				return;
 			}
+
+			directionY = -1;
+			directionX = 0;
+		}
+
+		private void Right() {
+			if (directionX == -1) {
+				return;
+			}
+
+			directionY = 0;
+			directionX = 1;
+		}
+
+		private void Left() {
+			if (directionX == 1) {
+				return;
+			}
+
+			directionY = 0;
+			directionX = -1;
 		}
 	}
 }

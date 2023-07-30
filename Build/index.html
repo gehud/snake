@@ -2,29 +2,13 @@
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Snake</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Snake</title>
   </head>
-  <body style="position: absolute; margin: 0; width: 100%; height: 100%; left: 0%; right: 0%; overflow: hidden;">
-    <canvas id="unity-canvas" style="width: 100%; height: 100%"></canvas>
+  <body style="text-align: center">
+    <canvas id="unity-canvas" width=960 height=600 style="width: 960px; height: 600px; background: #231F20"></canvas>
     <script src="Build/Build.loader.js"></script>
     <script>
-      let canvas = document.querySelector('canvas');
-      if(canvas.requestFullScreen) {
-        canvas.requestFullScreen();
-      } else if(canvas.webkitRequestFullScreen) {
-        canvas.webkitRequestFullScreen();
-      } else if(canvas.mozRequestFullScreen) {
-        canvas.mozRequestFullScreen();
-      }
-      
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {        
-        window.screen.orientation.lock('portrait-primary');
-      }
-      
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/Build.data.unityweb",
         frameworkUrl: "Build/Build.framework.js.unityweb",

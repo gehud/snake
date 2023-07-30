@@ -156,7 +156,7 @@ MonoBehaviour:
     viewsSettings:
       unityGameObjectProviderShowOnScene: 0
       unityParticlesProviderShowOnScene: 0
-  tickTime: 0.033
+  tickTime: 0.2
   inputTicks: 3
   references:
     version: 1

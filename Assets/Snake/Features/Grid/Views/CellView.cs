@@ -17,12 +17,20 @@ namespace Snake.Features.Grid.Views {
         }
 
 		public override void ApplyStateJob(UnityEngine.Jobs.TransformAccess transform, float deltaTime, bool immediately) {
+            if (!entity.IsAlive()) {
+                return;
+            }
+            
             var coordinate = entity.Read<Cell>().Coordinate;
             transform.position = new Vector3(coordinate.x, 0.0f, coordinate.y);
         }
         
         public override void ApplyState(float deltaTime, bool immediately) {
-            var material = entity.Read<CellMaterial>().Value;
+			if (!entity.IsAlive()) {
+				return;
+			}
+
+			var material = entity.Read<CellMaterial>().Value;
             if (renderer.material != material) {
                 renderer.material = material;
             }

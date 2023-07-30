@@ -1,50 +1,44 @@
 ﻿using ME.ECS;
 using UnityEngine;
-using Snake.Features.Grid.Components;
 
 namespace Snake.Features {
+	using Snake.Components;
+	using Snake.Systems;
+	namespace Snake.Components { }
+	namespace Snake.Modules { }
+	namespace Snake.Systems { }
+	namespace Snake.Markers { }
 
-    using Components; using Modules; using Systems; using Features; using Markers;
-    using Snake.Components; using Snake.Modules; using Snake.Systems; using Snake.Markers;
-
-	namespace Snake.Components {}
-    namespace Snake.Modules {}
-    namespace Snake.Systems {}
-    namespace Snake.Markers {}
-    
-    #if ECS_COMPILE_IL2CPP_OPTIONS
+#if ECS_COMPILE_IL2CPP_OPTIONS
     [Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.NullChecks, false),
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false),
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
-    #endif
-    public sealed class SnakeFeature : Feature {
-        public Material SnakeMaterial => snakeMaterial;
+#endif
+	public sealed class SnakeFeature : Feature {
+		public Material SnakeMaterial => snakeMaterial;
+		public Material AppleMaterial => appleMaterial;
+		public Material BanabaMaterial => bananaMaterial;
 
-        [SerializeField]
-        private Material snakeMaterial;
+		[SerializeField]
+		private Material snakeMaterial;
+		[SerializeField]
+		private Material appleMaterial;
+		[SerializeField]
+		private Material bananaMaterial;
 
-        protected override void OnConstruct() {
-            AddSystem<SnakeMovementSystem>();
-            AddSystem<SnakeTailSystem>();
+		protected override void OnConstruct() {
+			AddSystem<SnakeSpawnSystem>();
+			AddSystem<SnakeMovementSystem>();
+			AddSystem<FoodEatingSystem>();
+			AddSystem<FoodSpawnSystem>();
 
-            var snake = world.AddEntity("Snake");
-            snake.Set(new SnakeHead());
-            snake.Set(new CellAuthoring { Coordinate = Vector2Int.zero, Material = SnakeMaterial });
-			snake.Set(new SnakeTail { Next = Entity.Empty, LastCoordinate = Vector2Int.zero });
+			world.AddEntity().Set<SnakeAuthoring>();
+			world.AddEntity().Set<SnakeAuthoring>();
+			world.AddEntity().Set<SnakeAuthoring>();
 
-            var tail_0 = world.AddEntity();
-			tail_0.Set(new CellAuthoring { Coordinate = Vector2Int.zero, Material = SnakeMaterial });
-			tail_0.Set(new SnakeTail { Next = snake, LastCoordinate = Vector2Int.zero });
-
-			var tail_1 = world.AddEntity();
-			tail_1.Set(new CellAuthoring { Coordinate = Vector2Int.zero, Material = SnakeMaterial });
-			tail_1.Set(new SnakeTail { Next = tail_0, LastCoordinate = Vector2Int.zero });
+			world.AddEntity().Set(new FoodAuthoring { Type = FoodType.Apple });
 		}
 
-        protected override void OnDeconstruct() {
-            
-        }
-
-    }
-
+		protected override void OnDeconstruct() {}
+	}
 }

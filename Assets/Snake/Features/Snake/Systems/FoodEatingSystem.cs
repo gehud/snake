@@ -10,6 +10,7 @@ namespace Snake.Features.Snake.Systems {
 	using Snake.Markers;
 	using Snake.Modules;
 	using Snake.Systems;
+	using System;
 	using System.Collections.Generic;
 	using Systems;
 #pragma warning restore
@@ -20,6 +21,8 @@ namespace Snake.Features.Snake.Systems {
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
 #endif
 	public sealed class FoodEatingSystem : ISystem, IAdvanceTick {
+		public static event Action<FoodType> OnEatingFood; 
+
 		public World world { get; set; }
 
 		private Filter foodFilter;
@@ -53,7 +56,7 @@ namespace Snake.Features.Snake.Systems {
 						}
 
 						var newFoodType = FoodType.Apple;
-						if (appleCounter == 10) {
+						if (appleCounter == 5) {
 							newFoodType = FoodType.Banana;
 							appleCounter = 0;
 						}
@@ -65,6 +68,8 @@ namespace Snake.Features.Snake.Systems {
 						for (int i = 0; i < additionalCount; i++) {
 							world.AddEntity().Set<SnakeAuthoring>();
 						}
+
+						OnEatingFood?.Invoke(foodType);
 
 						foodEntity.Destroy();
 

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   editorComment: 
   snakeMaterial: {fileID: 2100000, guid: 07da65ec235abd742888f4c1684457e5, type: 2}
+  appleMaterial: {fileID: 2100000, guid: ac92fe93fa39b0440b6f1e8b214c91db, type: 2}
+  bananaMaterial: {fileID: 2100000, guid: dc67d103dd18f5c439d0c511cfdaa353, type: 2}

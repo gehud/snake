@@ -2,6 +2,7 @@
 using Snake.Features.Grid.Components;
 using System.Collections.Generic;
 using UnityEngine;
+using Snake.Features.Snake.Markers;
 
 namespace Snake.Features.Snake.Systems {
 	using Components;
@@ -30,11 +31,11 @@ namespace Snake.Features.Snake.Systems {
 		Filter ISystemFilter.filter { get; set; }
 
 		void ISystemBase.OnConstruct() {
-			Filter
+			snakeFilter = Filter
 				.Create()
 				.With<SnakeBody>()
 				.With<Cell>()
-				.Push(ref snakeFilter);
+				.Push();
 
 			this.GetFeature(out feature);
 		}
@@ -80,6 +81,9 @@ namespace Snake.Features.Snake.Systems {
 					break;
 				case FoodType.Banana:
 					material = feature.BanabaMaterial;
+					world.AddMarker(new BananaMarker { 
+						Entity = entity,
+					});
 					break;
 			}
 

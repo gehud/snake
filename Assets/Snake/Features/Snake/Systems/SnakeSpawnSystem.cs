@@ -10,6 +10,7 @@ namespace Snake.Features.Snake.Systems {
 	using Snake.Markers;
 	using Snake.Modules;
 	using Snake.Systems;
+	using System.Collections.Generic;
 	using Systems;
 	using UnityEngine;
 #pragma warning restore
@@ -19,12 +20,17 @@ namespace Snake.Features.Snake.Systems {
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false),
      Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
 #endif
-	public sealed class SnakeSpawnSystem : ISystemFilter {
-		private SnakeFeature feature;
-
+	public sealed class SnakeSpawnSystem : ISystemFilter, IAdvanceTickPre, IAdvanceTickPost {
 		public World world { get; set; }
 
+		private SnakeFeature feature;
+
 		private Entity tail;
+
+		private const int GRID_SIZE = 32;
+
+		private bool isQueued = false;
+		private bool isQueueEntered = false;
 
 		void ISystemBase.OnConstruct() {
 			this.GetFeature(out feature);
@@ -46,11 +52,25 @@ namespace Snake.Features.Snake.Systems {
 				.Push();
 		}
 
+		void IAdvanceTickPre.AdvanceTickPre(in float deltaTime) {
+			if (isQueueEntered) {
+				isQueued = false;
+				isQueueEntered = false;
+			}
+		}
+
 		void ISystemFilter.AdvanceTick(in Entity entity, in float deltaTime) {
+			if (isQueued) {
+				return;
+			}
+
 			Vector2Int tailCoordinate;
 			if (tail.IsEmpty()) {
 				entity.Set<SnakeHead>();
-				tailCoordinate = Vector2Int.zero;
+				tailCoordinate = new Vector2Int {
+					x = Random.Range(0, GRID_SIZE),
+					y = Random.Range(0, GRID_SIZE)
+				};
 			} else {
 				tailCoordinate = tail.Get<Cell>().Coordinate;
 			}
@@ -68,6 +88,12 @@ namespace Snake.Features.Snake.Systems {
 			tail = entity;
 
 			entity.Remove<SnakeAuthoring>();
+
+			isQueued = true;
+		}
+
+		void IAdvanceTickPost.AdvanceTickPost(in float deltaTime) {
+			isQueueEntered = true;
 		}
 	}
 }

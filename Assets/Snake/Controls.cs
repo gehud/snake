@@ -24,6 +24,18 @@ namespace Snake {
 			OnLeft?.Invoke();
 		}
 
+		private void OnEnable() {
+			GameManager.OnGameOver += OnGameOver;
+		}
+
+		private void OnDisable() {
+			GameManager.OnGameOver -= OnGameOver;
+		}
+
+		private void OnGameOver() {
+			gameObject.SetActive(false);
+		}
+
 		private void Update() {
 			if (Input.GetKeyDown(KeyCode.W)) {
 				Up();

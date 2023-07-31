@@ -27,10 +27,11 @@ namespace Snake.Features {
 		private Material bananaMaterial;
 
 		protected override void OnConstruct() {
-			AddSystem<SnakeSpawnSystem>();
 			AddSystem<SnakeMovementSystem>();
 			AddSystem<FoodEatingSystem>();
+			AddSystem<SnakeSpawnSystem>();
 			AddSystem<FoodSpawnSystem>();
+			AddSystem<BananaCountdownSystem>();
 
 			world.AddEntity().Set<SnakeAuthoring>();
 			world.AddEntity().Set<SnakeAuthoring>();

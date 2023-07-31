@@ -29,6 +29,7 @@ namespace Snake.Features.Grid.Systems {
 
         int ISystemFilter.jobsBatchCount => 64;
         #endif
+
         Filter ISystemFilter.filter { get; set; }
 
         Filter ISystemFilter.CreateFilter() {

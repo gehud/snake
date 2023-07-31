@@ -1,17 +1,15 @@
 using UnityEngine;
 
 #region Namespaces
-namespace Snake.Generator.Systems {} namespace Snake.Generator.Components {} namespace Snake.Generator.Modules {} namespace Snake.Generator.Features {} namespace Snake.Generator.Markers {} namespace Snake.Generator.Views {}
+namespace Snake.Generator.Systems { } namespace Snake.Generator.Components { } namespace Snake.Generator.Modules { } namespace Snake.Generator.Features { } namespace Snake.Generator.Markers { } namespace Snake.Generator.Views { }
 #endregion
 
 namespace Snake.Generator {
-    
-    using TState = SnakeState;
-    using Snake.Modules;
-    using ME.ECS;
-    using ME.ECS.Views.Providers;
-    using Snake.Generator.Modules;
+
+	using ME.ECS;
 	using Snake.Features;
+	using Snake.Modules;
+	using TState = SnakeState;
 
 #if ECS_COMPILE_IL2CPP_OPTIONS
     [Unity.IL2CPP.CompilerServices.Il2CppSetOptionAttribute(Unity.IL2CPP.CompilerServices.Option.NullChecks, false),
@@ -21,7 +19,7 @@ namespace Snake.Generator {
 	[DefaultExecutionOrder(-1000)]
     public sealed class SnakeInitializer : InitializerBase {
         private World world;
-        public float tickTime = 0.2f;
+        public float tickTime = 0.0333f;
         public uint inputTicks = 3;
 
 		public void OnDrawGizmos() {
@@ -51,8 +49,8 @@ namespace Snake.Generator {
                     Initialize(world);
 
                     // Add your custom systems here
-                    world.AddFeature(Resources.Load<GridFeature>("GridFeature"));
                     world.AddFeature(Resources.Load<SnakeFeature>("SnakeFeature"));
+                    world.AddFeature(Resources.Load<GridFeature>("GridFeature"));
                 }
                 
                 world.Load(() => {
@@ -87,8 +85,8 @@ namespace Snake.Generator {
 }
 
 namespace ME.ECS {
-    
-    public static partial class ComponentsInitializer {
+
+	public static partial class ComponentsInitializer {
 
         public static void InitTypeId() {
             

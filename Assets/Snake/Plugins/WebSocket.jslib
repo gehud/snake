@@ -13,9 +13,10 @@ var WebSocketLibrary = {
 
         WebSocketState.instance.onmessage = function(event) {
             console.log("[WebSocket]:", event.data);
-            if (event.data.type === "game-created") {
+            var obj = JSON.parse(event.data);
+            if (obj.payload && obj.payload.id) {
                 console.log("[WebSocket]: Game created");
-                unityInstance.SendMessage("WebSocket", "CreateGame", event.data.payload.id);
+                unityInstance.SendMessage("WebSocket", "CreateGame", obj.payload.id);
             }
         };
 
@@ -35,6 +36,26 @@ var WebSocketLibrary = {
     WebSocketCreateGame: function() {
         WebSocketState.instance.send(JSON.stringify({
             "type": "create-game"
+        }));
+    },
+
+    WebSocketSaveGame: function(appleCount, snakeLength, gameId) {
+        WebSocketState.instance.send(JSON.stringify({
+            "type": "collect-apple",
+            "payload": {
+                "appleCount": appleCount,
+                "snakeLength": snakeLength,
+                "game_id": gameId
+            }
+        }));
+    },
+
+    WebSocketEndGame: function(gameId) {
+        WebSocketState.instance.send(JSON.stringify({
+            "type": "end-game",
+            "payload": {
+                "game_id": gameId
+            }
         }));
     },
 

@@ -7,14 +7,12 @@ namespace Snake.Features.Grid.Views {
 	public class CellView : MonoBehaviourView {
         [SerializeField]
         private new Renderer renderer;
-        
-        public override bool applyStateJob => true;
 
-        public override void OnInitialize() {
-		}
+		public override bool applyStateJob => true;
+
+        public override void OnInitialize() {}
         
-        public override void OnDeInitialize() {
-        }
+        public override void OnDeInitialize() {}
 
 		public override void ApplyStateJob(UnityEngine.Jobs.TransformAccess transform, float deltaTime, bool immediately) {
             if (!entity.IsAlive()) {
@@ -34,8 +32,6 @@ namespace Snake.Features.Grid.Views {
             if (renderer.material != material) {
                 renderer.material = material;
             }
-        }
-        
+        }   
     }
-    
 }

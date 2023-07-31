@@ -8,14 +8,26 @@ namespace Snake {
         public static event Action<int> OnGameCreated;
 
         public static void CreateGame() {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && UNITY_WEBGL
             WebSocketCreateGame();
 #else
             FakeCreateGame();
 #endif
 		}
 
-        [DllImport("__Internal")]
+        public static void SaveGame(int appleCount, int snakeLength, int gameId) {
+#if !UNITY_EDITOR && UNITY_WEBGL
+            WebSocketSaveGame(appleCount, snakeLength, gameId);
+#endif
+        }
+
+        public static void EndGame(int gameId) {
+#if !UNITY_EDITOR && UNITY_WEBGL
+            WebSocketEndGame(gameId);
+#endif
+        }
+
+		[DllImport("__Internal")]
         private static extern void WebSocketOpen(string url);
 
         [DllImport("__Internal")]
@@ -23,6 +35,12 @@ namespace Snake {
 
         [DllImport("__Internal")]
         private static extern void WebSocketClose();
+
+        [DllImport("__Internal")]
+        private static extern void WebSocketSaveGame(int appleCount, int snakeLength, int gameId);
+
+        [DllImport("__Internal")]
+        private static extern void WebSocketEndGame(int gameId);
 
 		[SerializeField]
 		private string url = "wss://dev.match.qubixinfinity.io/snake";
@@ -36,12 +54,11 @@ namespace Snake {
 #if UNITY_EDITOR
 		private static async void FakeCreateGame() {
 			await Task.Delay(5000);
-			CreateGame(0);
+			OnGameCreated?.Invoke(0);
 		}
 #endif
 
-		private static void CreateGame(int id) {
-            Debug.Log($"Game created. Id: {id}");
+		private void CreateGame(int id) {
             OnGameCreated?.Invoke(id);
         }
 

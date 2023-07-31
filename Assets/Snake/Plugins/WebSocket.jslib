@@ -14,7 +14,7 @@ var WebSocketLibrary = {
         WebSocketState.instance.onmessage = function(event) {
             console.log("[WebSocket]:", event.data);
             var obj = JSON.parse(event.data);
-            if (obj.payload && obj.payload.id) {
+            if (obj.type === "game-created") {
                 console.log("[WebSocket]: Game created");
                 unityInstance.SendMessage("WebSocket", "CreateGame", obj.payload.id);
             }
